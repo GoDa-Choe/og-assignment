@@ -18,3 +18,12 @@ class ExhibitionForm(forms.ModelForm):
         super(ExhibitionForm, self).__init__(*args, **kwargs)
         self.fields["artworks"].widget = forms.CheckboxSelectMultiple()
         self.fields["artworks"].queryset = models.Artwork.objects.filter(artist=artist)
+
+    def clean_end_date(self):
+        end_date = self.cleaned_data.get('end_date')
+        start_date = self.cleaned_data.get('start_date')
+
+        if start_date <= end_date:
+            return end_date
+        else:
+            raise forms.ValidationError("종요일이 시작일보다 빠릅니다.")

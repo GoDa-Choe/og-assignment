@@ -2,12 +2,6 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.contrib.auth.models import User
 
-from cloudinary.models import CloudinaryField
-
-from hitcount.models import HitCountMixin
-from hitcount.settings import MODEL_HITCOUNT
-from django.contrib.contenttypes.fields import GenericRelation
-
 
 class Artist(models.Model):
     name = models.CharField(max_length=16)
@@ -20,7 +14,7 @@ class Artist(models.Model):
 
     picture = models.ImageField('image', upload_to='artist/')
 
-    is_confirmed = models.BooleanField(default=False)
+    is_confirmed = models.CharField(max_length=2, default='W', choices=(('W', '대기'), ('C', '확인'), ('R', '거절')))
 
     # ForeignKey
     user = models.OneToOneField(
@@ -35,7 +29,7 @@ class Artist(models.Model):
         return f"{self.name}"
 
 
-class Artwork(models.Model, HitCountMixin):
+class Artwork(models.Model):
     title = models.CharField(max_length=64)
     price = models.PositiveBigIntegerField()
     canvas_size = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(500)])
@@ -46,10 +40,6 @@ class Artwork(models.Model, HitCountMixin):
 
     # ForeignKey
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-
-    # hit_counts
-    hit_count_generic = GenericRelation(MODEL_HITCOUNT, object_id_field='object_pk',
-                                        related_query_name='hit_count_generic_relation')
 
     def __str__(self):
         return f"{self.title}"

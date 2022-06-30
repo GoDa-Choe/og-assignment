@@ -1,5 +1,7 @@
 {% extends 'collection/base_create.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
+
 
 {% block title %}
     작품 등록
@@ -20,11 +22,30 @@
 
     <div class="container" style="max-width: 500px">
         <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+
             {{ form | crispy }}
+            {#                {{ form }}#}
 
             <div class="d-flex justify-content-end my-3">
                 <button type="submit" class="btn btn-primary">등록</button>
             </div>
         </form>
     </div>
+
+{% endblock %}
+
+{% block bottom-main %}
+    <script>
+        const input = document.querySelector('#id_price');
+        input.addEventListener('keyup', function (e) {
+            let value = e.target.value;
+            value = Number(value.replaceAll(',', ''));
+            if (isNaN(value)) {
+                input.value = 0;
+            } else {
+                const formatValue = value.toLocaleString('ko-KR');
+                input.value = formatValue;
+            }
+        })
+    </script>
 {% endblock %}

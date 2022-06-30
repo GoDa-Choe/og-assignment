@@ -48,7 +48,7 @@ class StaffDashboard(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(StaffDashboard, self).get_context_data(**kwargs)
 
-        artist_list = Artist.objects.filter(is_confirmed=True).annotate(num_artworks=Count('artwork'))
+        artist_list = Artist.objects.filter(is_confirmed='C').annotate(num_artworks=Count('artwork'))
         artist_list = artist_list.annotate(below_100=Count('artwork', filter=Q(artwork__canvas_size__lte=100)))
         artist_list = artist_list.annotate(min_price=Min('artwork__price'),
                                            max_price=Max('artwork__price'),
@@ -57,18 +57,21 @@ class StaffDashboard(LoginRequiredMixin, TemplateView):
 
         context['artist_list'] = artist_list
         context['artwork_list'] = Artwork.objects.all()
-        context['confirm_required_list'] = Artist.objects.filter(is_confirmed=False).order_by('pk')
+        context['waiting_list'] = Artist.objects.filter(is_confirmed='W').order_by('pk')
+        context['confirmed_list'] = Artist.objects.filter(is_confirmed='C').order_by('pk')
+        context['rejected_list'] = Artist.objects.filter(is_confirmed='R').order_by('pk')
         context['exhibition_list'] = Exhibition.objects.all()
         return context
 
 
-def confirm(request):
+def confirm_or_reject(request):
     if request.user.is_staff:
         if request.method == 'POST':
             for artist_pk in request.POST.getlist('artist_pks'):
                 artist = get_object_or_404(Artist, pk=artist_pk)
-                artist.is_confirmed = True
-                artist.save()
+                if artist.is_confirmed == 'W':
+                    artist.is_confirmed = request.POST.get('action_type')
+                    artist.save()
             return redirect(reverse('dashboard:staff'))
         else:
             return PermissionDenied

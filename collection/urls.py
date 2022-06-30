@@ -14,4 +14,6 @@ urlpatterns = [
     path('artwork/', views.ArtworkListView.as_view(), name='artwork_list'),
     path('artwork/<int:pk>/', views.ArtworkDetailView.as_view(), name='artwork_detail'),
     path('artwork/create/', views.ArtworkCreateView.as_view(), name='artwork_create'),
+
+    path('artwork/search/<str:search_string>/', views.ArtworkSearchView.as_view(), name='artwork_search'),
 ]

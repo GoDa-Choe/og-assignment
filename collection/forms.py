@@ -1,8 +1,8 @@
-from django.forms import ModelForm
+from django import forms
 from collection import models
 
 
-class ArtistForm(ModelForm):
+class ArtistForm(forms.ModelForm):
     class Meta:
         model = models.Artist
         fields = ('name', 'gender', 'birth', 'email', 'phone_number', 'picture')
@@ -16,7 +16,7 @@ class ArtistForm(ModelForm):
         }
 
 
-class ArtWorkForm(ModelForm):
+class ArtWorkForm(forms.ModelForm):
     class Meta:
         model = models.Artwork
         fields = ('title', 'canvas_size', 'price', 'picture')
@@ -26,3 +26,8 @@ class ArtWorkForm(ModelForm):
             'price': "가격",
             'picture': "사진",
         }
+
+
+class ArtworkSearchForm(forms.Form):
+    search_string = forms.CharField(max_length=40, label="",
+                                    widget=forms.TextInput(attrs={"placeholder": "피카소"}))

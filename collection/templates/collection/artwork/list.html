@@ -1,8 +1,20 @@
 {% extends 'collection/base_list.html' %}
 {% load humanize %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     작품 목록
+{% endblock %}
+
+{% block search-bar %}
+    <!-- Search Bar -->
+    <p class="lead text-muted mb-0 mt-4">찾고 싶은 작품을 검색해 보세요!</p>
+    <form class="d-flex" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="col px-1">{{ form |crispy }}</div>
+        <div class="col-auto px-1">
+            <button class="btn btn-outline-success" type="submit">검색</button>
+        </div>
+    </form>
 {% endblock %}
 
 {% block center-main %}

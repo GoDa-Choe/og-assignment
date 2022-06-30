@@ -1,8 +1,11 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, redirect
+
+from django.db.models import Q
 
 from collection import models
 from collection import forms
@@ -34,12 +37,78 @@ class ArtistCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('collection:artist_detail', args=(self.object.pk,))
 
 
-class ArtworkListView(ListView):
+class SearchMixin(FormMixin):
+    form_class = forms.ArtworkSearchForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        search_string = form.cleaned_data['search_string']
+        return redirect(reverse_lazy('collection:artwork_search', args=(search_string,)))
+
+    def form_invalid(self, form):
+        return redirect(reverse_lazy('collection:artwork_list'))
+
+    @staticmethod
+    def get_keywords(search_string):
+        """
+        :param search_string: str
+        :return keywords: List[str]
+
+        verified test cases
+        1. "aa bb cc"
+        2. "#aa#bb#cc#"
+        3. "#aa #bb #cc"
+        -> ["aa", "bb", "cc"]
+        """
+        keywords = search_string.strip(" #").replace("#", " ").split()
+
+        return keywords
+
+
+class ArtworkListView(SearchMixin, ListView):
     model = models.Artwork
     template_name = 'collection/artwork/list.html'
     context_object_name = 'artwork_list'
     ordering = '-pk'
     paginate_by = 9
+
+
+class ArtworkSearchView(ArtworkListView):
+    def get_queryset(self):
+        """
+        :return queryset
+        Big-O O(n + nlog(n))
+        n: search by keyword
+        nlong(n): sort by '-pk'
+        """
+
+        search_string = self.kwargs['search_string']
+        search_keywords = self.get_keywords(search_string)
+
+        lookups = []
+
+        # O(n)
+        for keyword in search_keywords:
+            title_lookup = Q(title__contains=keyword)
+            artist_lookup = Q(artist__name__contains=keyword)
+
+            try:
+                price_lookup = Q(price=int(keyword))  # search keyword = "이중섭"
+                canvas_size_lookup = Q(canvas_size=int(keyword))
+            except ValueError:
+                lookups.append(title_lookup | artist_lookup)
+            else:
+                lookups.append(title_lookup | price_lookup | canvas_size_lookup | artist_lookup)
+
+        # O(nlog(n))
+        queryset = models.Artwork.objects.filter(*lookups).order_by('-pk').distinct()
+        return queryset
 
 
 class ArtworkDetailView(DetailView):

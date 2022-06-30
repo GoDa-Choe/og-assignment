@@ -37,6 +37,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+
+    # Apps
+    'collection',  # Artwork, Artist
+    'exhibition',  # Exhibition
+
+    # Libs
+    'hitcount',
+    'cloudinary',
+    'crispy_forms',
+    'crispy_bootstrap5',
+
+    # Accounts
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
 ]
 
 MIDDLEWARE = [
@@ -103,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -124,4 +141,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 django_heroku.settings(locals())
+
+# Crispy Form setup
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# cloudinary setup
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': 'hir9im17u',
+#     'API_KEY': '396838163152586',
+#     'API_SECRET': 'XqTmhazpYtkatYCl5GZs4D9Pbis', }
+#
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

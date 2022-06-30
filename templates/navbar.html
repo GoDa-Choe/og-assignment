@@ -1,14 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg bg-light sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">오픈갤러리 과제</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="{% url 'collection:index' %}">오픈갤러리 과제</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    {% if is_artist %}
+                        <a class="nav-link active" aria-current="page"
+                           href="{% url 'dashboard:artist' user.artist.pk %}">대시보드</a>
+                    {% elif user.is_staff %}
+                        <a class="nav-link active" aria-current="page"
+                           href="{% url 'dashboard:staff' %}">대시보드</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'collection:artwork_list' %}">작품</a>
@@ -19,18 +26,40 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'exhibition:list' %}">전시회</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        대쉬보드
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">프로필</a></li>
-                        <li><a class="dropdown-item" href="#">통계</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
+
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            {% if is_artist %}
+                                {{ user.artist.name }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a></li>
+                            <li><a class="dropdown-item disabled" href="#">placeholder</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item disabled" href="#">placeholder</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_login' %}">로그인</a>
+                    </li>
+                {% endif %}
             </ul>
+
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="준비중" aria-중abel="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
         </div>
     </div>
 </nav>

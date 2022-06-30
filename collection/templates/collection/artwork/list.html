@@ -2,42 +2,38 @@
 {% load humanize %}
 
 {% block title %}
-작품 목록
+    작품 목록
 {% endblock %}
 
 {% block center-main %}
-    <div class="album py-5 bg-light">
-        <div class="container">
+    <div class="row" data-masonry='{"percentPosition": true }'>
+        {% for artwork in artwork_list %}
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="card">
+                    <img src="{{ artwork.picture.url }}" class="card-img-top" alt="image load error">
 
-            <div class="row" data-masonry='{"percentPosition": true }'>
-                {% for artwork in artwork_list %}
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="card">
-                            <img src="{{ artwork.picture.url }}" class="card-img-top" alt="image load error">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ artwork.title }}</h5>
 
-                            <div class="card-body">
-                                <h5 class="card-title text-center">{{ artwork.title }}</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text fw-light text-muted mb-0">{{ artwork.artist.name }}</p>
+                            <p class="card-text fw-light text-muted mb-0 small">{{ artwork.created_at | naturaltime }}</p>
+                        </div>
 
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="card-text fw-light text-muted mb-0">{{ artwork.artist.name }}</p>
-                                    <p class="card-text fw-light text-muted mb-0 small">{{ artwork.created_at | naturaltime }}</p>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="card-text fw-light mb-0">
-                                        {{ artwork.canvas_size }}호
-                                        &nbsp;{{ artwork.price|intcomma }}원
-                                    </p>
-                                    <a role="button" class="btn btn-sm btn-outline-secondary"
-                                       href="{% url 'collection:artwork_detail' artwork.pk %}">더 알아보기
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text fw-light mb-0">
+                                {{ artwork.canvas_size }}호
+                                &nbsp;{{ artwork.price|intcomma }}원
+                            </p>
+                            <a role="button" class="btn btn-sm btn-outline-secondary"
+                               href="{% url 'collection:artwork_detail' artwork.pk %}">더 알아보기
+                            </a>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
             </div>
-
-        </div>
+        {% endfor %}
     </div>
+
+
 {% endblock %}

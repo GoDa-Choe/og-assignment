@@ -17,17 +17,13 @@
 {% endblock %}
 
 {% block bottom-main %}
-    <div class="album py-5 bg-light">
-        <div class="container" style="max-width: 500px">
+    <div class="container" style="max-width: 500px">
+        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+            {{ form | crispy }}
 
-            <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-                {{ form | crispy }}
-
-                <div class="d-flex justify-content-end my-3">
-                    <button type="submit" class="btn btn-primary">등록 신청</button>
-                </div>
-            </form>
-
-        </div>
+            <div class="d-flex justify-content-end my-3">
+                <button type="submit" class="btn btn-primary">등록 신청</button>
+            </div>
+        </form>
     </div>
 {% endblock %}

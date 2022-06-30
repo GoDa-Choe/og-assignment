@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block top-main %}
+    <section class="py-2 text-center container">
+        <div class="row py-lg-2">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">세상의 오직 한 점</h1>
+                <p class="lead text-muted">지금 오픈 갤러리 작가 신청을 통해<br> 나의 작품을 마음껏 뽐내 보세요!</p>
+
+                {% if is_artist %}
+                    {% if user.artist.is_confirmed %}
+                        <a href="{% url 'collection:artwork_create' %}" class="btn btn-outline-secondary my-2">작품
+                            등록</a>
+                    {% else %}
+                        <p class="fw-light text-primary">현재 작가 신청 승인 대기 중 입니다.</p>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'collection:artist_create' %}" class="btn btn-outline-primary my-2">작가
+                        신청</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+
+
+

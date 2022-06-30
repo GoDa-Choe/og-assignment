@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Apps
     'collection',  # Artwork, Artist
     'exhibition',  # Exhibition
+    'dashboard',  # Dashboard for artist, staff
 
     # Libs
     'hitcount',

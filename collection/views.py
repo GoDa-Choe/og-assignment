@@ -15,11 +15,6 @@ class ArtistListView(ListView):
     ordering = '-pk'
     paginate_by = 9
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(ArtistListView, self).get_context_data()
-        context['is_artist'] = hasattr(self.request.user, 'artist')
-        return context
-
 
 class ArtistDetailView(DetailView):
     model = models.Artist
@@ -45,11 +40,6 @@ class ArtworkListView(ListView):
     context_object_name = 'artwork_list'
     ordering = '-pk'
     paginate_by = 9
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(ArtworkListView, self).get_context_data()
-        context['is_artist'] = hasattr(self.request.user, 'artist')
-        return context
 
 
 class ArtworkDetailView(DetailView):

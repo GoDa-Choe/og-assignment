@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}
+    대쉬보드
+{% endblock %}
+
+{% block top-main %}
+    <section class="py-2 text-center container">
+        <div class="row py-lg-2">
+
+            <div class="col-lg-6 col-md-6 mx-auto">
+                <h1 class="fw-light">세상의 오직 한 점</h1>
+                <p class="lead text-muted">지금 오픈 갤러리 작가 신청을 통해<br> 나의 작품을 마음껏 뽐내 보세요!</p>
+
+                <a href="{% url 'collection:artwork_create' %}" class="btn btn-outline-secondary my-2">작품 등록</a>
+                <a href="{% url 'exhibition:create' %}" class="btn btn-outline-secondary my-2">전시회 등록</a>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block center-main %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class=" position-sticky" style="top: 4.5rem;">
+                        <div class="card">
+
+                            <div class="card-header">
+                                작가 프로필
+                            </div>
+
+                            <img src="{{ artist.picture.url }}" class="card-img-top" alt="image load error">
+
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ artist.name }}</h5>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="card-text fw-light text-muted mb-0">{{ artist.email }}</p>
+                                    <p class="card-text fw-light text-muted mb-0 small">{{ artist.birth }}</p>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="card-text fw-light mb-0 text-muted small">
+                                        {{ artist.phone_number }}
+                                    </p>
+                                    <p class="card-text fw-light mb-0 text-muted small">
+                                        {{ artist.created_at | naturaltime }} 가입
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 text-center">
+                    <div class="bd-example-snippet bd-code-snippet">
+                        <div class="bd-example">
+                            <nav>
+                                <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-artwork-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-artwork"
+                                            type="button" role="tab" aria-controls="nav-artwork" aria-selected="true">나의
+                                        작품
+                                    </button>
+                                    <button class="nav-link" id="nav-exhibition-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-exhibition"
+                                            type="button" role="tab" aria-controls="nav-exhibition"
+                                            aria-selected="false">나의 전시회
+                                    </button>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+
+
+                                <div class="tab-pane fade show active" id="nav-artwork" role="tabpanel"
+                                     aria-labelledby="nav-artwork-tab">
+                                    <div class="row" data-masonry='{"percentPosition": true }'>
+                                        {% for artwork in artwork_list %}
+                                            <div class="col-sm-6 col-lg-4 mb-4">
+                                                <div class="card">
+                                                    <img src="{{ artwork.picture.url }}" class="card-img-top"
+                                                         alt="image load error">
+
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-center">{{ artwork.title }}</h5>
+
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <p class="card-text fw-light text-muted mb-0">{{ artwork.artist.name }}</p>
+                                                            <p class="card-text fw-light text-muted mb-0 small">{{ artwork.created_at | naturaltime }}</p>
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <p class="card-text fw-light mb-0">
+                                                                {{ artwork.canvas_size }}호
+                                                                &nbsp;{{ artwork.price|intcomma }}원
+                                                            </p>
+                                                            <a role="button" class="btn btn-sm btn-outline-secondary"
+                                                               href="{% url 'collection:artwork_detail' artwork.pk %}">더
+                                                                알아보기
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane fade" id="nav-exhibition" role="tabpanel"
+                                     aria-labelledby="nav-exhibition-tab">
+                                    <div class="row" data-masonry='{"percentPosition": true }'>
+                                        {% for exhibition in exhibition_list %}
+                                            <div class="col-sm-6 col-lg-4 mb-4">
+                                                <div class="card">
+                                                    {% if exhibition.poster %}
+                                                        <img src="{{ exhibition.poster.url }}" class="card-img-top"
+                                                             alt="image load error">
+                                                    {% else %}
+                                                        <img src="{{ exhibition.artworks.last.picture.url }}"
+                                                             class="card-img-top"
+                                                             alt="image load error">
+                                                    {% endif %}
+
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Card title that wraps to a new line</h5>
+                                                        <p class="card-text">This is a longer card with supporting text
+                                                            below as
+                                                            a
+                                                            natural
+                                                            lead-in
+                                                            to additional content. This content is a little bit
+                                                            longer.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

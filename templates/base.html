@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% block title %}<title>오픈갤러리 과제</title>{% endblock %}
+    <title>{% block title %}오픈갤러리 과제{% endblock %}</title>
 
     <!-- CSS -->
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
@@ -73,20 +73,15 @@
 
 {% include 'navbar.html' %}
 
-{% block main %}
-    <main>
-        {% block top-section %}{% endblock %}
 
-        {% block main-section %}{% endblock %}
+<main>
+    {% block top-main %}{% endblock %}
 
+    {% block center-main %}{% endblock %}
 
-    </main>
+    {% block bottom-main %}{% endblock %}
 
-{% endblock %}
-
-
-
-
+</main>
 
 
 <!-- JavaScript  -->

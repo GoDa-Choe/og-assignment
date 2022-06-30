@@ -1,7 +1,11 @@
 {% extends 'collection/base_list.html' %}
 {% load humanize %}
 
-{% block bottom-main %}
+{% block title %}
+작품 목록
+{% endblock %}
+
+{% block center-main %}
     <div class="album py-5 bg-light">
         <div class="container">
 
@@ -32,7 +36,6 @@
                         </div>
                     </div>
                 {% endfor %}
-
             </div>
 
         </div>

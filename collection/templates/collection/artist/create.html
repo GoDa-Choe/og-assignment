@@ -1,7 +1,22 @@
 {% extends 'collection/base_create.html' %}
 {% load crispy_forms_tags %}
 
-{% block main-section %}
+{% block title %}
+    작가 신청
+{% endblock %}
+
+{% block top-main %}
+    <section class="py-2 text-center container">
+        <div class="row py-lg-2">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">작가 신청</h1>
+                <p class="lead text-muted">세상의 오직 한 점! <br> 나의 작품을 마음껏 뽐내 보세요!</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block bottom-main %}
     <div class="album py-5 bg-light">
         <div class="container" style="max-width: 500px">
 

@@ -18,6 +18,10 @@ class ArtistListView(ListView):
     ordering = '-pk'
     paginate_by = 9
 
+    def get_queryset(self):
+        queryset = super(ArtistListView, self).get_queryset()
+        return queryset.filter(is_confirmed='C')
+
 
 class ArtistDetailView(DetailView):
     model = models.Artist

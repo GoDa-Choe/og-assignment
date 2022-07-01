@@ -12,10 +12,12 @@
                 <h1 class="fw-light">세상의 오직 한 점</h1>
                 <p class="lead text-muted">지금 오픈 갤러리 전시회 등록으로 <br> 나의 작품을 마음껏 뽐내 보세요!</p>
                 {% if is_artist %}
-                    {% if user.artist.is_confirmed %}
+                    {% if user.artist.is_confirmed == "C" %}
                         <a href="{% url 'exhibition:create' %}" class="btn btn-outline-secondary my-2">전시회 등록</a>
-                    {% else %}
+                    {% elif user.artist.is_confirmed == "W" %}
                         <p class="fw-light text-primary">현재 작가 신청 승인 대기 중 입니다.</p>
+                    {% else %}
+                        <p class="fw-light text-danger">현재 작가 신청이 거부되었습니다.</p>
                     {% endif %}
                 {% endif %}
             </div>

@@ -15,7 +15,7 @@
                         <p class="fw-light text-primary">현재 작가 신청 승인 대기 중 입니다.</p>
 
                     {% else %}
-                        <p class="fw-light text-primary">작가 신청이 거부되었습니다.</p>
+                        <p class="fw-light text-danger">작가 신청이 거부되었습니다.</p>
                     {% endif %}
                 {% else %}
                     <a href="{% url 'collection:artist_create' %}" class="btn btn-outline-primary my-2">작가 신청</a>

@@ -26,7 +26,7 @@ class ExhibitionCreateView(CreateView):
         user = self.request.user
         if user.is_authenticated:
             if hasattr(user, 'artist'):
-                if user.artist.is_confirmed:
+                if user.artist.is_confirmed == 'C':
                     if user.artist.artwork_set.exists():
                         return super(ExhibitionCreateView, self).dispatch(request, *args, **kwargs)
                     else:

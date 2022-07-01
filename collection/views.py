@@ -129,7 +129,7 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         user = self.request.user
         if user.is_authenticated:
             if hasattr(user, 'artist'):
-                if user.artist.is_confirmed:
+                if user.artist.is_confirmed == 'C':
                     return super(ArtworkCreateView, self).dispatch(request, *args, **kwargs)
                 else:
                     return render(request=request, template_name='collection/artist/confirm_required.html')

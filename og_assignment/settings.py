@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Libs
     'crispy_forms',
     'crispy_bootstrap5',
+    'cloudinary',
 
     # Accounts
     'allauth',
@@ -152,3 +153,11 @@ django_heroku.settings(locals())
 # Crispy Form setup
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# cloudinary setup
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hir9im17u',
+    'API_KEY': '396838163152586',
+    'API_SECRET': 'XqTmhazpYtkatYCl5GZs4D9Pbis',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

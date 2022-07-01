@@ -27,6 +27,8 @@ class ArtWorkForm(forms.ModelForm):
             'picture': "사진",
         }
 
+        widgets = {'price': forms.TextInput()}
+
 
 class ArtworkSearchForm(forms.Form):
     search_string = forms.CharField(max_length=40, label="",

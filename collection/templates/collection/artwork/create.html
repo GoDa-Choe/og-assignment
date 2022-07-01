@@ -26,7 +26,7 @@
             {{ form | crispy }}
 
             <div class="d-flex justify-content-end my-3">
-                <button type="submit" class="btn btn-primary">등록</button>
+                <button type="submit" class="btn btn-primary" onclick="toNum()">등록</button>
             </div>
         </form>
     </div>
@@ -36,15 +36,19 @@
 {% block bottom-main %}
     <script>
         const input = document.querySelector('#id_price');
+
         input.addEventListener('keyup', function (e) {
             let value = e.target.value;
             value = Number(value.replaceAll(',', ''));
             if (isNaN(value)) {
                 input.value = 0;
             } else {
-                const formatValue = value.toLocaleString('ko-KR');
-                input.value = formatValue;
+                input.value = value.toLocaleString('ko-KR');
             }
         })
+
+        function toNum() {
+            input.value = parseInt(input.value.replaceAll(',', ''));
+        }
     </script>
 {% endblock %}

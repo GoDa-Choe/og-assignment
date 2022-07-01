@@ -19,265 +19,264 @@
             </div>
         </div>
     </section>
+
 {% endblock %}
 
 {% block center-main %}
-    <div class="bd-example-snippet bd-code-snippet">
-        <div class="bd-example">
-            <nav>
-                <div class="nav nav-tabs mb-3 d-flex justify-content-between" id="nav-tab" role="tablist">
-
-                    <div class="d-flex">
-                        <button class="nav-link active" id="nav-artwork-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-artwork"
-                                type="button" role="tab" aria-controls="nav-artwork"
-                                aria-selected="true">작품 목록
-                        </button>
-                        <button class="nav-link" id="nav-artist-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-artist"
-                                type="button" role="tab" aria-controls="nav-artist"
-                                aria-selected="false">작가 목록
-                        </button>
-
-                        <button class="nav-link" id="nav-exhibition-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-exhibition"
-                                type="button" role="tab" aria-controls="nav-exhibition"
-                                aria-selected="false">전시회 목록
-                        </button>
-                    </div>
-
-                    <button class="nav-link" id="nav-confirm_required-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-confirm_required"
-                            type="button" role="tab" aria-controls="nav-confirm_required"
-                            aria-selected="false">승인 대기 작가
-                    </button>
-
-                </div>
-            </nav>
-
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-artwork" role="tabpanel"
-                     aria-labelledby="nav-artwork-tab">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover text-center small">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">작가</th>
-                                <th scope="col">호수</th>
-                                <th scope="col">가격</th>
-                                <th scope="col">등록일</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for artwork in artwork_list %}
-                                <tr>
-
-                                    <th scope="row">
-                                        <a href="{% url 'collection:artwork_detail' artwork.pk %}"
-                                           class="text-dark link-primary">
-                                            {{ forloop.counter }}
-                                        </a>
-                                    </th>
-                                    <td>
-                                        {{ artwork.title }}
-                                    </td>
-                                    <td>{{ artwork.artist }}</td>
-                                    <td>{{ artwork.canvas_size }}</td>
-                                    <td>{{ artwork.price|intcomma }}</td>
-                                    <td>{{ artwork.created_at }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-                <div class="tab-pane fade show" id="nav-artist" role="tabpanel"
-                     aria-labelledby="nav-artist-tab">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover text-center small">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">이름</th>
-                                <th scope="col">성별</th>
-                                <th scope="col">생년월일</th>
-                                <th scope="col">이메일</th>
-                                <th scope="col">전화번호</th>
-                                <th scope="col">등록일</th>
-                                <th scope="col">작품 수</th>
-                                <th scope="col">100호 이하</th>
-                                <th scope="col">최저가격</th>
-                                <th scope="col">최고가격</th>
-                                <th scope="col">평균가격</th>
-                                <th scope="col">총가격</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for artist in artist_list %}
-                                <tr>
-
-                                    <th scope="row">
-                                        <a href="{% url 'collection:artist_detail' artist.pk %}"
-                                           class="text-dark link-primary">
-                                            {{ forloop.counter }}
-                                        </a>
-                                    </th>
-                                    <td>
-                                        {{ artist.name }}
-                                    </td>
-                                    <td>{{ artist.get_gender_display }}</td>
-                                    <td>{{ artist.birth }}</td>
-                                    <td>{{ artist.email }}</td>
-                                    <td>{{ artist.phone_number }}</td>
-                                    <td>{{ artist.created_at }}</td>
-                                    <td>{{ artist.num_artworks }}</td>
-                                    <td>{{ artist.below_100 }}</td>
-                                    <td>{{ artist.min_price|intcomma }}</td>
-                                    <td>{{ artist.max_price|intcomma }}</td>
-                                    <td>{{ artist.avg_price|floatformat:"0" |intcomma }}</td>
-                                    <td>{{ artist.sum_price|intcomma }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-                <div class="tab-pane fade" id="nav-exhibition" role="tabpanel"
-                     aria-labelledby="nav-exhibition-tab">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover text-center small">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">시작일</th>
-                                <th scope="col">종료일</th>
-                                <th scope="col">등록일</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for exhibition in exhibition_list %}
-                                <tr>
-                                    <th scope="row">
-                                        <a href="{% url 'exhibition:detail' exhibition.pk %}"
-                                           class="text-dark link-primary">
-                                            {{ forloop.counter }}
-                                        </a>
-                                    </th>
-                                    <td>
-                                        {{ exhibition.title }}
-                                    </td>
-                                    <td>{{ exhibition.start_date }}</td>
-                                    <td>{{ exhibition.end_date }}</td>
-                                    <td>{{ exhibition.created_at }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-                <div class="tab-pane fade show" id="nav-confirm_required" role="tabpanel"
-                     aria-labelledby="nav-confirm_required-tab">
-
-                    <form class="table-responsive" action="{% url 'dashboard:confirm_or_reject' %}"
-                          method="POST">{% csrf_token %}
-                        <button type="submit" value="R" name="action_type"
-                                class="btn btn-sm btn-outline-danger float-end mx-2">거절
-                        </button>
-                        <button type="submit" value="C" name="action_type"
-                                class="btn btn-sm btn-outline-primary float-end">승인
-                        </button>
-
-                        <table class="table table-striped table-hover text-center small">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">이름</th>
-                                <th scope="col">성별</th>
-                                <th scope="col">생년월일</th>
-                                <th scope="col">이메일</th>
-                                <th scope="col">전화번호</th>
-                                <th scope="col">등록일</th>
-                                <th scope="col"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for artist in waiting_list %}
-                                <tr>
-                                    <th scope="row">
-                                        {{ artist.get_is_confirmed_display }}
-                                    </th>
-                                    <td>
-                                        {{ artist.name }}
-                                    </td>
-                                    <td>{{ artist.get_gender_display }}</td>
-                                    <td>{{ artist.birth }}</td>
-                                    <td>{{ artist.email }}</td>
-                                    <td>{{ artist.phone_number }}</td>
-                                    <td>{{ artist.created_at }}</td>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                   name="artist_pks"
-                                                   id="{{ artist.name }}" value="{{ artist.pk }}">
-                                            <label for="{{ artist.name }}"></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            {% for artist in confirmed_list %}
-                                <tr>
-                                    <th scope="row" class="text-primary">
-                                        {{ artist.get_is_confirmed_display }}
-                                    </th>
-                                    </th>
-                                    <td>
-                                        {{ artist.name }}
-                                    </td>
-                                    <td>{{ artist.get_gender_display }}</td>
-                                    <td>{{ artist.birth }}</td>
-                                    <td>{{ artist.email }}</td>
-                                    <td>{{ artist.phone_number }}</td>
-                                    <td>{{ artist.created_at }}</td>
-                                    <td></td>
-                                </tr>
-                            {% endfor %}
-                            {% for artist in rejected_list %}
-                                <tr>
-                                    <th scope="row" class="text-danger">
-                                        {{ artist.get_is_confirmed_display }}
-                                    </th>
-                                    <td>
-                                        {{ artist.name }}
-                                    </td>
-                                    <td>{{ artist.get_gender_display }}</td>
-                                    <td>{{ artist.birth }}</td>
-                                    <td>{{ artist.email }}</td>
-                                    <td>{{ artist.phone_number }}</td>
-                                    <td>{{ artist.created_at }}</td>
-                                    <td></td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </form>
 
 
-                </div>
+    <nav>
+        <div class="nav nav-tabs mb-3 d-flex justify-content-between" id="nav-tab" role="tablist">
+
+            <div class="d-flex">
+                <button class="nav-link active" id="nav-artwork-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-artwork"
+                        type="button" role="tab" aria-controls="nav-artwork"
+                        aria-selected="true">작품 목록
+                </button>
+                <button class="nav-link" id="nav-exhibition-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-exhibition"
+                        type="button" role="tab" aria-controls="nav-exhibition"
+                        aria-selected="false">전시회 목록
+                </button>
+                <button class="nav-link" id="nav-artist-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-artist"
+                        type="button" role="tab" aria-controls="nav-artist"
+                        aria-selected="false">작가 통계
+                </button>
+            </div>
+
+            <button class="nav-link" id="nav-confirm_required-tab" data-bs-toggle="tab"
+                    data-bs-target="#nav-confirm_required"
+                    type="button" role="tab" aria-controls="nav-confirm_required"
+                    aria-selected="false">승인 대기 작가
+            </button>
+
+        </div>
+    </nav>
+
+    <div class="tab-content table-responsive" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-artwork" role="tabpanel"
+             aria-labelledby="nav-artwork-tab">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover text-center small">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">작가</th>
+                        <th scope="col">호수</th>
+                        <th scope="col">가격</th>
+                        <th scope="col">등록일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for artwork in artwork_list %}
+                        <tr>
+
+                            <th scope="row">
+                                <a href="{% url 'collection:artwork_detail' artwork.pk %}"
+                                   class="text-dark link-primary">
+                                    {{ forloop.counter }}
+                                </a>
+                            </th>
+                            <td>
+                                {{ artwork.title }}
+                            </td>
+                            <td>{{ artwork.artist }}</td>
+                            <td>{{ artwork.canvas_size }}</td>
+                            <td>{{ artwork.price|intcomma }}</td>
+                            <td>{{ artwork.created_at }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
         </div>
+
+        <div class="tab-pane fade show" id="nav-artist" role="tabpanel"
+             aria-labelledby="nav-artist-tab">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover text-center small">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">성별</th>
+                        <th scope="col">생년월일</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">등록일</th>
+                        <th scope="col">작품 수</th>
+                        <th scope="col">100호 이하</th>
+                        <th scope="col">최저가격</th>
+                        <th scope="col">최고가격</th>
+                        <th scope="col">평균가격</th>
+                        <th scope="col">총가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for artist in artist_list %}
+                        <tr>
+
+                            <th scope="row">
+                                <a href="{% url 'collection:artist_detail' artist.pk %}"
+                                   class="text-dark link-primary">
+                                    {{ forloop.counter }}
+                                </a>
+                            </th>
+                            <td>
+                                {{ artist.name }}
+                            </td>
+                            <td>{{ artist.get_gender_display }}</td>
+                            <td>{{ artist.birth }}</td>
+                            <td>{{ artist.email }}</td>
+                            <td>{{ artist.phone_number }}</td>
+                            <td>{{ artist.created_at }}</td>
+                            <td>{{ artist.num_artworks }}</td>
+                            <td>{{ artist.below_100 }}</td>
+                            <td>{{ artist.min_price|intcomma }}</td>
+                            <td>{{ artist.max_price|intcomma }}</td>
+                            <td>{{ artist.avg_price|floatformat:"0" |intcomma }}</td>
+                            <td>{{ artist.sum_price|intcomma }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="nav-exhibition" role="tabpanel"
+             aria-labelledby="nav-exhibition-tab">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover text-center small">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">시작일</th>
+                        <th scope="col">종료일</th>
+                        <th scope="col">등록일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for exhibition in exhibition_list %}
+                        <tr>
+                            <th scope="row">
+                                <a href="{% url 'exhibition:detail' exhibition.pk %}"
+                                   class="text-dark link-primary">
+                                    {{ forloop.counter }}
+                                </a>
+                            </th>
+                            <td>
+                                {{ exhibition.title }}
+                            </td>
+                            <td>{{ exhibition.start_date }}</td>
+                            <td>{{ exhibition.end_date }}</td>
+                            <td>{{ exhibition.created_at }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="nav-confirm_required" role="tabpanel"
+             aria-labelledby="nav-confirm_required-tab">
+
+            <form class="table-responsive" action="{% url 'dashboard:confirm_or_reject' %}"
+                  method="POST">{% csrf_token %}
+                <button type="submit" value="R" name="action_type"
+                        class="btn btn-sm btn-outline-danger float-end mx-2">거절
+                </button>
+                <button type="submit" value="C" name="action_type"
+                        class="btn btn-sm btn-outline-primary float-end">승인
+                </button>
+
+                <table class="table table-striped table-hover text-center small">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">성별</th>
+                        <th scope="col">생년월일</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">등록일</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for artist in waiting_list %}
+                        <tr>
+                            <th scope="row">
+                                {{ artist.get_is_confirmed_display }}
+                            </th>
+                            <td>
+                                {{ artist.name }}
+                            </td>
+                            <td>{{ artist.get_gender_display }}</td>
+                            <td>{{ artist.birth }}</td>
+                            <td>{{ artist.email }}</td>
+                            <td>{{ artist.phone_number }}</td>
+                            <td>{{ artist.created_at }}</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="artist_pks"
+                                           id="{{ artist.name }}" value="{{ artist.pk }}">
+                                    <label for="{{ artist.name }}"></label>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% for artist in confirmed_list %}
+                        <tr>
+                            <th scope="row" class="text-primary">
+                                {{ artist.get_is_confirmed_display }}
+                            </th>
+                            </th>
+                            <td>
+                                {{ artist.name }}
+                            </td>
+                            <td>{{ artist.get_gender_display }}</td>
+                            <td>{{ artist.birth }}</td>
+                            <td>{{ artist.email }}</td>
+                            <td>{{ artist.phone_number }}</td>
+                            <td>{{ artist.created_at }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                    {% for artist in rejected_list %}
+                        <tr>
+                            <th scope="row" class="text-danger">
+                                {{ artist.get_is_confirmed_display }}
+                            </th>
+                            <td>
+                                {{ artist.name }}
+                            </td>
+                            <td>{{ artist.get_gender_display }}</td>
+                            <td>{{ artist.birth }}</td>
+                            <td>{{ artist.email }}</td>
+                            <td>{{ artist.phone_number }}</td>
+                            <td>{{ artist.created_at }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+
+        </div>
+    </div>
+
+    </div>
     </div>
 
 {% endblock %}

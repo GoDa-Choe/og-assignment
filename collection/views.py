@@ -132,7 +132,8 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
                 if user.artist.is_confirmed == 'C':
                     return super(ArtworkCreateView, self).dispatch(request, *args, **kwargs)
                 else:
-                    return render(request=request, template_name='collection/artist/confirm_required.html')
+                    return render(request=request, context={'artist': user.artist},
+                                  template_name='collection/artist/confirm_required.html')
             else:
                 return redirect(reverse_lazy('collection:artist_create'))
         else:

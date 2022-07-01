@@ -32,7 +32,8 @@ class ExhibitionCreateView(CreateView):
                     else:
                         return redirect(reverse_lazy('collection:artwork_create'))
                 else:
-                    return render(request=request, template_name='collection/artist/confirm_required.html')
+                    return render(request=request, context={'artist': user.artist},
+                                  template_name='collection/artist/confirm_required.html')
             else:
                 return redirect(reverse_lazy('collection:artist_create'))
         else:
